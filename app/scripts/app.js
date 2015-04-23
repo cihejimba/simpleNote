@@ -13,4 +13,4 @@ angular.module('simpleNote', ['ionic'])
       StatusBar.styleDefault();
     }
   });
-})
+});

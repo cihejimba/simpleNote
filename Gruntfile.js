@@ -157,7 +157,7 @@ module.exports = function (grunt) {
       }
     },
 
-    
+
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -334,7 +334,8 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/bower_components/ionic/release/js/ionic-angular.js',
           '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.js',
           '<%= yeoman.test %>/mock/**/*.js',
-          '<%= yeoman.test %>/spec/**/*.js'
+          '<%= yeoman.test %>/spec/**/*.js',
+          '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.drv.html'
         ],
         autoWatch: false,
         reporters: ['dots', 'coverage'],
@@ -342,7 +343,16 @@ module.exports = function (grunt) {
         singleRun: false,
         preprocessors: {
           // Update this if you change the yeoman config path
-          '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.js': ['coverage']
+          '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.js': ['coverage'],
+          '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.drv.html': ['ng-html2js']
+        },
+        ngHtml2JsPreprocessor: {
+          // strip this from the file path
+          stripPrefix: 'app/scripts/', // to get the correct path after building
+
+          // setting this option will create only a single module that contains templates
+          // from all the files, so you can load them all with module('templates')
+          moduleName: 'templates'
         },
         coverageReporter: {
           reporters: [
@@ -513,7 +523,7 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
-  grunt.registerTask('coverage', 
+  grunt.registerTask('coverage',
     ['karma:continuous',
     'connect:coverage:keepalive'
   ]);
