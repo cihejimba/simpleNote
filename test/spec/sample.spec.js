@@ -8,6 +8,7 @@ describe('Sample test for setting up development framework', function () {
   describe('Directive: sample-directive', function () {
     var $compile;
     var scope;
+    var element;
 
     beforeEach(module('simpleNote'));
 
@@ -16,12 +17,17 @@ describe('Sample test for setting up development framework', function () {
     beforeEach(inject(function (_$compile_, _$rootScope_) {
       $compile = _$compile_;
       scope = _$rootScope_.$new();
+      element = $compile('<sample-directive></sample-directive>')(scope);
+      scope.$digest();
     }));
 
     it('gets the appropriate content', function () {
-      var element = $compile('<sample-directive></sample-directive>')(scope);
-      scope.$digest();
       expect(element.html()).to.contain('<h1>Sample</h1>');
+    });
+
+    it('should get button element and check its css class', function () {
+      var buttons = element.find('button');
+      expect(buttons.eq(0)).to.have.class('sample-class');
     });
   });
 });

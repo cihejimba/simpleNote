@@ -1,13 +1,12 @@
-#Work Flow of Development
+#Work Flow of Developing simpleNote App
 
-This is a log for developing **simpleNote** app.
+##1. Setting up the developing environment
 
-##Setting up the developing environment
+###1.1. Using Ionic Framework
 
-###Using Ionic Framework
-We develop this app in [Ionic](http://ionicframework.com/) framework. I wrote a [blogpost](http://js-workout.tompascall.com/lets-create-hybrid-mobile-apps-with-ionic-framework/) on seting up your environment for an ionic project.
+We develop this app in [Ionic](http://ionicframework.com/) framework. I wrote a [blogpost](http://js-workout.tompascall.com/lets-create-hybrid-mobile-apps-with-ionic-framework/) on setting up your environment for an ionic project.
 
-###Using Yeoman
+###1.2. Using Yeoman
 
 We generate the template using [Yeoman](http://yeoman.io/), especially the Yeoman [Ionic Generator](https://github.com/diegonetto/generator-ionic):
 
@@ -27,7 +26,7 @@ $ yo ionic simpleNote
 
 In Windows you need to install Python 2.7.~, and Visual Studio Express to get the build.
 
-###Project Structure
+###1.3 Project Structure
 
 ```
 ├── Gruntfile.js            - Configuration of all Grunt tasks
@@ -53,7 +52,7 @@ In Windows you need to install Python 2.7.~, and Visual Studio Express to get th
 │   ├── spec/
 ├── www/                    - Copied from app/ to be used by Cordova
 ```
-###Workflow commands
+###1.4. Workflow commands
 
 For all commands check out the [Ionic Generator](https://github.com/diegonetto/generator-ionic) page (but first your Gruntfile.js)
 
@@ -65,12 +64,12 @@ Run a local development server with built in file system watching support integr
 
 Watch for changes and run your tests, using ```karma```, ```mocha```, ```chai```.
 
-###Cleaning up the template
+###1.5. Cleaning up the template
 
 - ```app/scripts/app.js```: changing the main module name (simpleNote), removing unwanted comments and adding ```'use strict'```
 - ```app/index.html```: adding title (simpleNote), updating the module name and the header title
 
-###Editorconfig
+###1.6. Editorconfig
 
 EditorConfig is used to maintain consistent coding styles. There is an `.editorconfig` file in the project root directory, that defines the main styles.
 
@@ -95,7 +94,7 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 ```
 
-###Setting up test environment
+###1.7. Setting up test environment
 
 Running ```grunt test``` launches [Karma](http://karma-runner.github.io/0.12/index.html) testing tool. This grunt task watches *.js file changing in the following libraries (and their sub-libraries)
 
@@ -105,7 +104,7 @@ Running ```grunt test``` launches [Karma](http://karma-runner.github.io/0.12/ind
 
 The latter two libraries doesn't exist, so we have to create them. After creating the folders you need rerun ```grunt test``` for correct watching.
 
-####Create a sample test
+####1.7.1. Create a sample test
 
 Let's create a sample test to see if our testing tool works:
 
@@ -135,7 +134,7 @@ files: [
         ],
 ```
 
-Add preprocessor to karma task's options:
+**Add preprocessor** to karma task's options:
 
 ```js
 preprocessors: {
@@ -203,4 +202,62 @@ Finally, create the test template ```app/scripts/sample/sample.drv.html```:
 
 ```
 
-####Extending test framework with karma-jquery and chai-jquery
+####1.7.2. Extending test framework with karma-jquery and chai-jquery
+
+If you want to write tests for Angular directives, you need tools for testing DOM elements. This is where [karma-jquery](https://github.com/scf2k/karma-jquery) and [karma-chai-jquery](https://www.npmjs.com/package/karma-chai-jquery) come into play. Let's install them:
+
+```bash
+$ npm install karma-jquery karma-chai-jquery --save-dev
+```
+
+We need to update the karma task in ```Gruntfile.js```:
+
+```js
+options: {
+  frameworks: ['chai-jquery', 'chai', 'jquery-1.8.3', 'mocha'],
+  (...)
+}
+```
+
+Check out the order of frameworks. As of this writing you need to keep this order (from the most specified to the less specified), otherwise you'll get an error.
+
+Let's write a test that uses these frameworks. We'd like to develop a button element with a *sample-class* css class, and an inner ```<h1>``` element:
+
+```js
+describe('Directive: sample-directive', function () {
+  var $compile;
+  var scope;
+  var element;
+
+  beforeEach(module('simpleNote'));
+
+  beforeEach(module('templates'));
+
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
+    $compile = _$compile_;
+    scope = _$rootScope_.$new();
+    element = $compile('<sample-directive></sample-directive>')(scope);
+    scope.$digest();
+  }));
+
+  it('gets the appropriate content', function () {
+    expect(element.html()).to.contain('<h1>Sample</h1>');
+  });
+
+  it('should get button element and check its css class', function () {
+    var buttons = element.find('button');
+    expect(buttons.eq(0)).to.have.class('sample-class');
+  });
+});
+  
+```
+
+
+
+
+
+
+
+
+
+
