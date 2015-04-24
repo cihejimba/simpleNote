@@ -6,7 +6,7 @@ In this log I'd like to document the work flow of developing the simpleNote app.
 
 In this project we will use [Trello](https://trello.com/about). It is free, flexible and really useful tool for managing your projects.
 
-We create 5 tables in [my simpleNote board](https://trello.com/b/zlgPDTj4/simplenote):
+We create 5 tables in [the simpleNote board](https://trello.com/b/zlgPDTj4/simplenote):
 
 - **Backlog**: these cards contains features in user stories and acceptance criteria form
 - **Sprint backlog**: backlog cards being in the given sprint
