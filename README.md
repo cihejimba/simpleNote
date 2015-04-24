@@ -2,7 +2,7 @@
 
 In this project we'll develop a hybrid mobile app, using test-driven development approach, developing in [Ionic Framework](ionicframework.com).
 
-If you are curious about the developing work flow, just check out the [**development.log.md**](https://github.com/tompascall/simpleNote/blob/setup-dev-environment/development.log.md) file for the details.
+If you are curious about the developing work flow, just check out the [**development.log.md**](https://github.com/tompascall/simpleNote/blob/master/development.log.md) file for the details.
 
 ##Prerequisites of building the app
 
