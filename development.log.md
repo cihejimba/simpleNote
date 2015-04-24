@@ -359,3 +359,67 @@ angular.module('simpleNote')
 ```
 
 **note:** I  tried to save my service to ```app/scripts/01_list-of-notes directory, but Karma or Angular didn't like its name, I had to remove the number tag.
+
+###2.5. Create directive for note list
+
+Show the list of notes using Angular directive. Populate data form the noteData service.
+
+####2.5.1. Test for noteList directive
+
+```js
+// noteList.drv.spec.js
+
+'use strict';
+
+describe('Directive: noteList', function () {
+  var $compile;
+  var scope;
+  var element;
+
+  beforeEach(module('simpleNote'));
+
+  beforeEach(module('templates'));
+
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
+    $compile = _$compile_;
+    scope = _$rootScope_.$new();
+    element = $compile('<note-list></note-list>')(scope);
+    scope.$digest();
+  }));
+
+  it('contains the appropriate content', function () {
+    expect(element.html()).to.contain('ng-repeat="note in notes"');
+  });
+});
+```
+
+####2.5.2. Create noteList directive
+
+
+```js
+// noteList.drv.js
+
+'use strict';
+
+angular.module('simpleNote').directive('noteList', noteList);
+
+function noteList () {
+  return {
+    restrict: 'E',
+    templateUrl: 'list-of-notes/note-list.drv.html',
+  };
+}
+```
+
+####2.5.3. Create the template for noteList directive
+
+We give a temporary ```notes``` array for ng-repeat. Without this we would get an assertion error message as running test.
+
+```html
+<ul ng-init="notes = [1,2,3]">
+  <li ng-repeat="note in notes"></li>
+</ul>
+```
+
+
+
