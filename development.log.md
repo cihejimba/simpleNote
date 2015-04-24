@@ -281,3 +281,81 @@ describe('Directive: sample-directive', function () {
   
 ```
 
+##2. Create a list of notes (show title)
+
+###2.1. USER STORY
+
+>AS I customer I WANT to see a list of my notes SO THAT I can read their title
+
+###2.2. ACCEPTANCE CRITERIA
+
+GIVEN I am a user
+WHEN I open the app
+THEN I can see a list of my notes (its title)
+
+###2.3. Todos
+
+- Create mock data of notes
+- Create directive for note list
+- Deploy and test app on multiple devices
+
+###2.4. Create mock data of notes
+
+The data of notes will be stored as Angular value (noteData), in the following format:
+
+```js
+[
+  {
+    title: noteTitle1
+  },
+  {
+    title: noteTitle2
+  }
+]
+```
+
+####2.4.1. Unit test for noteData service
+
+```js
+// mock-data.spec.js
+
+'use strict';
+
+describe('Service: noteData', function () {
+
+  beforeEach(module('simpleNote'));
+    var noteData;
+
+  beforeEach(inject(function ($injector) {
+    noteData = $injector.get('noteData');
+  }));
+
+  it('should get noteData service', function () {
+    expect(noteData).to.not.equal(undefined);
+    expect(noteData.notes).to.be.an('array');
+    expect(noteData.notes[0].title).to.be.a('string');
+  });
+});
+```
+
+####2.4.2. Create noteData service
+
+```js
+// noteData.srv.js
+
+'use strict';
+
+angular.module('simpleNote')
+
+.factory('noteData', function noteDataFactory() {
+  return {
+    notes: [
+      {
+        title: 'noteTitle1'
+      }
+    ]
+  };
+});
+```
+
+**note:** I  tried to save my service to ```app/scripts/01_list-of-notes directory, but Karma or Angular didn't like its name, I had to remove the number tag.
