@@ -281,3 +281,145 @@ describe('Directive: sample-directive', function () {
   
 ```
 
+##2. Create a list of notes (show title)
+
+###2.1. USER STORY
+
+>AS I customer I WANT to see a list of my notes SO THAT I can read their title
+
+###2.2. ACCEPTANCE CRITERIA
+
+GIVEN I am a user
+WHEN I open the app
+THEN I can see a list of my notes (its title)
+
+###2.3. Todos
+
+- Create mock data of notes
+- Create directive for note list
+- Deploy and test app on multiple devices
+
+###2.4. Create mock data of notes
+
+The data of notes will be stored as Angular value (noteData), in the following format:
+
+```js
+[
+  {
+    title: noteTitle1
+  },
+  {
+    title: noteTitle2
+  }
+]
+```
+
+####2.4.1. Unit test for noteData service
+
+```js
+// mock-data.spec.js
+
+'use strict';
+
+describe('Service: noteData', function () {
+
+  beforeEach(module('simpleNote'));
+    var noteData;
+
+  beforeEach(inject(function ($injector) {
+    noteData = $injector.get('noteData');
+  }));
+
+  it('should get noteData service', function () {
+    expect(noteData).to.not.equal(undefined);
+    expect(noteData.notes).to.be.an('array');
+    expect(noteData.notes[0].title).to.be.a('string');
+  });
+});
+```
+
+####2.4.2. Create noteData service
+
+```js
+// noteData.srv.js
+
+'use strict';
+
+angular.module('simpleNote')
+
+.factory('noteData', function noteDataFactory() {
+  return {
+    notes: [
+      {
+        title: 'noteTitle1'
+      }
+    ]
+  };
+});
+```
+
+**note:** I  tried to save my service to ```app/scripts/01_list-of-notes directory, but Karma or Angular didn't like its name, I had to remove the number tag.
+
+###2.5. Create directive for note list
+
+Show the list of notes using Angular directive. Populate data form the noteData service.
+
+####2.5.1. Test for noteList directive
+
+```js
+// noteList.drv.spec.js
+
+'use strict';
+
+describe('Directive: noteList', function () {
+  var $compile;
+  var scope;
+  var element;
+
+  beforeEach(module('simpleNote'));
+
+  beforeEach(module('templates'));
+
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
+    $compile = _$compile_;
+    scope = _$rootScope_.$new();
+    element = $compile('<note-list></note-list>')(scope);
+    scope.$digest();
+  }));
+
+  it('contains the appropriate content', function () {
+    expect(element.html()).to.contain('ng-repeat="note in notes"');
+  });
+});
+```
+
+####2.5.2. Create noteList directive
+
+
+```js
+// noteList.drv.js
+
+'use strict';
+
+angular.module('simpleNote').directive('noteList', noteList);
+
+function noteList () {
+  return {
+    restrict: 'E',
+    templateUrl: 'list-of-notes/note-list.drv.html',
+  };
+}
+```
+
+####2.5.3. Create the template for noteList directive
+
+We give a temporary ```notes``` array for ng-repeat. Without this we would get an assertion error message as running test.
+
+```html
+<ul ng-init="notes = [1,2,3]">
+  <li ng-repeat="note in notes"></li>
+</ul>
+```
+
+
+
