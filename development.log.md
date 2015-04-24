@@ -1,5 +1,32 @@
 #Work Flow of Developing simpleNote App
 
+In this log I'd like to document the work flow of developing the simpleNote app.
+
+##Project management method
+
+In this project we will use [Trello](https://trello.com/about). It is free, flexible and really useful tool for managing your projects.
+
+We create 5 tables in our simpleNote board:
+
+- **Backlog**: these cards contains features in user stories and acceptance criteria form
+- **Sprint backlog**: backlog cards being in the given sprint
+- **Todo**: the tasks that we can hammer out the features with
+- **In progress**: tasks in progress
+- **Done**: done tasks
+
+For now we created the following cards in Backlog:
+
+- **Setting up developing environment**
+- **Create a list of notes (show title)**
+- **Show details of notes (title, text, tags)**
+- **Add note**
+- **Remove note**
+- **Edit note**
+- **Filter note search term**
+- **Synchronize data with database**
+
+In the following we'll walk through the cards above and realize them.
+
 ##1. Setting up the developing environment
 
 ###1.1. Using Ionic Framework
@@ -51,6 +78,8 @@ In Windows you need to install Python 2.7.~, and Visual Studio Express to get th
 ├── test/                   - Unit tests
 │   ├── spec/
 ├── www/                    - Copied from app/ to be used by Cordova
+
+Source: https://github.com/diegonetto/generator-ionic
 ```
 ###1.4. Workflow commands
 
@@ -251,13 +280,4 @@ describe('Directive: sample-directive', function () {
 });
   
 ```
-
-
-
-
-
-
-
-
-
 
